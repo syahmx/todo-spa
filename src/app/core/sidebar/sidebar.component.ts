@@ -1,15 +1,47 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  UserService
+}
+
+  from './../services/user.service';
+
+import {
+  Component,
+  OnInit
+}
+
+  from '@angular/core';
+
+import {
+  filter
+}
+
+  from 'rxjs/operators';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
-})
-export class SidebarComponent implements OnInit {
+}
 
-  constructor() { }
+) export class SidebarComponent implements OnInit {
+  lists: {
+    listName: string;
+    id: number;
+  };
+  activeList;
+
+  constructor(private user: UserService) { }
 
   ngOnInit() {
+    this.user.userData.pipe(filter(x => x != null)).subscribe(res => {
+      this.lists = res.lists
+    }
+
+    )
   }
 
+  changeList(list) {
+    this.activeList = list.listName
+
+  }
 }

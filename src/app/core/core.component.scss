@@ -1,4 +1,12 @@
+@import '../../variables';
+
 .sidebar {
-    width: 80px;
-    max-width: 80px;
+    width: 150px;
+    max-width: 150px;
+    background: $gray-200;
+    z-index: 2;
+}
+
+.bg-lighter {
+    background: $gray-200;
 }
