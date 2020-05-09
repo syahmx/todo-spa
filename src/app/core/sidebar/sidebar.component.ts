@@ -1,3 +1,5 @@
+import { ListService } from './../services/list.service';
+import { AuthService } from './../../auth/auth.service';
 import {
   UserService
 }
@@ -30,7 +32,7 @@ import {
   };
   activeList;
 
-  constructor(private user: UserService) { }
+  constructor(private user: UserService, private auth: AuthService, private list: ListService) { }
 
   ngOnInit() {
     this.user.userData.pipe(filter(x => x != null)).subscribe(res => {
@@ -42,6 +44,10 @@ import {
 
   changeList(list) {
     this.activeList = list.listName
+    this.list.getListData(list.id)
+  }
 
+  logout() {
+    this.auth.logout()
   }
 }

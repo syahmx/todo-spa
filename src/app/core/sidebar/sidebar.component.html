@@ -1,17 +1,18 @@
 <div class="wrapper vh-100">
     <div class="d-flex flex-column h-100">
         <div class="row justify-content-center">
-            <div class="text-center logo p-2 mb-4">
+            <div class="text-center logo p-2 mb-2">
                 ToDo.
             </div>
         </div>
         <div class="flex-fill">
-            <div class="d-flex justify-content-between mb-3 px-3">
-                <div class="header">Dashboard</div>
+            <hr class="my-0 mx-2 py-0">
+            <div class="d-flex justify-content-between px-3 py-2 header-item" routerLink='home'>
+                <div class="header">Home</div>
             </div>
-            <div class="d-flex justify-content-between mb-2 px-3">
+            <hr class="my-0 mx-2 py-0">
+            <div class="d-flex justify-content-between px-3 py-2">
                 <div class="header">Lists</div>
-                <!-- <div class="edit-pen"></div> -->
                 <div class="align-self-center">
                     <svg id="edit-pen" width="24" height="24" viewBox="0 0 24 24">
                         <path
@@ -20,15 +21,17 @@
                 </div>
             </div>
             <div class="align-self-stretch">
-                <div *ngFor="let list of lists" class="py-2 w-100 d-flex list-item" (click)="changeList(list)"
+                <div *ngFor="let list of lists" class="py-2 w-100 d-flex list-item"
+                    [routerLink]="['list', list.listName]" (click)="changeList(list)"
                     [ngClass]="{'list-item-active': activeList == list.listName}">
                     <img src="../../../assets/icons/folder-outline.svg" class="folder ml-4 mr-2">
-                    <a class="align-self-center flex-grow-1"> {{ list.listName }} </a>
-                    <div class="mr-3 list-item-count px-1 rounded"> {{ list.itemCount }} </div>
+                    <a class="align-self-center flex-grow-1 text-break mr-2"> {{ list.listName }} </a>
+                    <div class="mr-3 list-item-count px-1 rounded align-self-center"> {{ list.itemCount }} </div>
                 </div>
             </div>
         </div>
-        <div class="text-center font-weight-bold mb-4">
+        <hr class="my-0 mx-2 py-0">
+        <div class="text-center font-weight-bold py-2 logout" (click)="logout()">
             Logout
         </div>
     </div>

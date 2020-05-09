@@ -16,7 +16,7 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  checkLoginStatus() {
+  checkLoginStatus(url: string) {
     let token = localStorage.getItem('token')
     if (!token) return this.router.navigate(['/auth/login'])
 
@@ -24,7 +24,7 @@ export class AuthService {
     if (isExpired) return this.router.navigate(['/auth/login'])
 
     this.isLoggedIn = true
-    this.router.navigate(['/'])
+    this.router.navigate([url])
   }
 
   login(user: UserForLogin) {
@@ -38,5 +38,10 @@ export class AuthService {
 
   register(user: UserForRegister) {
     return this.http.post(this.baseUrl + 'register', user)
+  }
+
+  logout() {
+    localStorage.clear()
+    this.router.navigate(['auth/login'])
   }
 }

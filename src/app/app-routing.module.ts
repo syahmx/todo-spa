@@ -1,9 +1,11 @@
+import { HomeComponent } from './core/main/home/home.component';
 import { CoreComponent } from './core/core.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import { AuthComponent } from './auth/auth.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ListComponent } from './core/main/list/list.component';
 
 
 const routes: Routes = [
@@ -14,8 +16,13 @@ const routes: Routes = [
       { path: '', redirectTo: 'login', pathMatch: 'full' }
     ]
   },
-  { path: '', component: CoreComponent },
-  { path: '**', redirectTo: '', pathMatch: 'full' }
+  {
+    path: 'app', component: CoreComponent, children: [
+      { path: 'home', component: HomeComponent },
+      { path: 'list/:listId', component: ListComponent }
+    ]
+  },
+  { path: '', redirectTo: 'app/home', pathMatch: 'full' }
 ];
 
 @NgModule({

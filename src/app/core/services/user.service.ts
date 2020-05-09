@@ -1,3 +1,4 @@
+import { ListService } from './list.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
@@ -8,6 +9,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 export class UserService {
   baseUrl = 'http://localhost:5000/api/'
   userData = new BehaviorSubject(null);
+  user;
 
   constructor(private http: HttpClient) { }
 
@@ -15,6 +17,7 @@ export class UserService {
     this.http.get(this.baseUrl + 'users/' + id).subscribe(
       res => {
         this.userData.next(res);
+        this.user = res;
       },
       err => {
         console.log(err);

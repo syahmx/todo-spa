@@ -1,0 +1,32 @@
+<div class="modal-header">
+    <h5 class="modal-title">Edit {{ category }}</h5>
+    <button type="button" class="close text-dark" (click)="activeModal.dismiss('Cross click')">
+        <i class="fa fa-times"></i>
+    </button>
+</div>
+
+<div class="p-3">
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Reminder</span>
+        </div>
+        <input class="form-control" placeholder="yyyy-mm-dd HH:mm" name="dp" [(ngModel)]="item.remindAt" ngbDatepicker
+            #d="ngbDatepicker">
+        <div class="input-group-append">
+            <button class="btn btn-outline-primary" (click)="d.toggle()" type="button">
+                <i class="fa fa-calendar"></i></button>
+        </div>
+        <div class="input-group-append">
+            <button class="btn btn-outline-primary" data-toggle="collapse" data-target="#time" data-trigger="focus">
+                <i class="fa fa-clock-o"></i>
+            </button>
+        </div>
+    </div>
+    <ngb-timepicker id="time" class="collapse time-picker" [(ngModel)]="item.time" [seconds]="false" [meridian]="true">
+    </ngb-timepicker>
+    <div class="item-time"> Remind at {{ item.remindAt | date :'d MMM y, h:mm a' }} </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Done</button>
+</div>

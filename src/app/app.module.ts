@@ -2,7 +2,8 @@ import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +15,15 @@ import { CoreComponent } from './core/core.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { MainComponent } from './core/main/main.component';
 import { SidebarComponent } from './core/sidebar/sidebar.component';
+import { HomeComponent } from './core/main/home/home.component';
+import { ListComponent } from './core/main/list/list.component';
+import { TodosComponent } from './core/main/list/todos/todos.component';
+import { RemindersComponent } from './core/main/list/reminders/reminders.component';
+import { IsTruePipe } from './pipes/is-true.pipe';
+import { IsNotTruePipe } from './pipes/is-not-true.pipe';
+import { SortReminderPipe } from './pipes/sort-reminder.pipe';
+import { SortTaskPipe } from './pipes/sort-task.pipe';
+import { EditModalComponent } from './core/main/list/edit-modal/edit-modal.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token')
@@ -27,15 +37,26 @@ export function tokenGetter() {
     LoginComponent,
     CoreComponent,
     MainComponent,
-    SidebarComponent
+    SidebarComponent,
+    HomeComponent,
+    ListComponent,
+    TodosComponent,
+    RemindersComponent,
+    IsTruePipe,
+    IsNotTruePipe,
+    SortReminderPipe,
+    SortTaskPipe,
+    EditModalComponent
   ],
   imports: [
     BrowserModule,
     RouterModule,
     AppRoutingModule,
     FontAwesomeModule,
+    FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    NgbModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
@@ -45,6 +66,9 @@ export function tokenGetter() {
     })
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    EditModalComponent
+  ]
 })
 export class AppModule { }

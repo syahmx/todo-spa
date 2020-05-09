@@ -2,7 +2,7 @@
 
 .logo {
     font-size: 40px;
-    font-weight: 800;
+    font-weight: 900;
     color: $gray-800;
 }
 
@@ -25,6 +25,11 @@
     width: 18px;
 }
 
+.header-item:hover {
+    cursor: pointer;
+    color: $gray-600;
+}
+
 .list-item:hover {
     cursor: pointer;
     background: $gray-100;
@@ -37,4 +42,8 @@
 .list-item-count {
     color: $gray-200;
     background: $gray-400;
+}
+
+.logout {
+    cursor: pointer;
 }
