@@ -26,6 +26,7 @@ import { SortTaskPipe } from './pipes/sort-task.pipe';
 import { EditModalComponent } from './core/main/list/edit-modal/edit-modal.component';
 import { CheckExpiryPipe } from './pipes/check-expiry.pipe';
 import { AddModalComponent } from './core/main/list/add-modal/add-modal.component';
+import { ConfirmModalComponent } from './shared/confirm-modal/confirm-modal.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token')
@@ -50,7 +51,8 @@ export function tokenGetter() {
     SortTaskPipe,
     EditModalComponent,
     CheckExpiryPipe,
-    AddModalComponent
+    AddModalComponent,
+    ConfirmModalComponent
   ],
   imports: [
     BrowserModule,
@@ -73,7 +75,8 @@ export function tokenGetter() {
   bootstrap: [AppComponent],
   entryComponents: [
     EditModalComponent,
-    AddModalComponent
+    AddModalComponent,
+    ConfirmModalComponent
   ]
 })
 export class AppModule { }

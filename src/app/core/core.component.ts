@@ -18,7 +18,7 @@ export class CoreComponent implements OnInit {
 
     if (token) {
       let id = this.jwtHelper.decodeToken(token).nameid
-      this.user.getUserData(id)
+      this.user.getUserData()
     }
   }
 

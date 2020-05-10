@@ -11,7 +11,7 @@
     font-weight: 600;
 }
 
-#edit-pen {
+#edit-icon {
     width: 20px;
     fill: $gray-500;
 
@@ -46,4 +46,32 @@
 
 .logout {
     cursor: pointer;
+}
+
+.customButton {
+    font-size: 12px;
+    padding: 5px;
+}
+
+.item-add {
+    color: $primary;
+    cursor: pointer;
+
+    &:hover {
+        color: $gray-600;
+    }
+}
+
+div.input-group-text.custom-check {
+    cursor: pointer;
+
+    &:hover i {
+        color: $success;
+    }
+}
+
+.edit-container {
+    svg {
+        z-index: 5;
+    }
 }

@@ -19,4 +19,14 @@ export class AlertifyService {
     alertify.set('notifier', 'position', 'bottom-right');
     alertify.error(err)
   }
+
+  confirm(title, msg, callback) {
+    alertify.confirm(title, msg,
+      success => {
+        callback(true)
+      },
+      cancel => {
+        callback(false)
+      })
+  }
 }

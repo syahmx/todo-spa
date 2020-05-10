@@ -4,7 +4,6 @@ import { UserService } from './../../services/user.service';
 import { Router } from '@angular/router';
 import { ListService } from './../../services/list.service';
 import { Component, OnInit } from '@angular/core';
-import { Item } from 'src/app/model/item';
 import { filter } from 'rxjs/operators';
 import { AlertifyService } from '../../services/alertify.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -22,11 +21,10 @@ export class ListComponent implements OnInit {
 
   ngOnInit() {
     setTimeout(() => {
-      let listName = this.router.url.split('/')[3]
-      let listData = this.user.user.lists.filter(x => x.listName == decodeURIComponent(listName))[0]
+      let id = this.router.url.split('/')[3]
+      let listData = this.user.user.lists.filter(x => x.id == id)[0]
       if (listData) {
-        let listId = listData.id
-        this.list.getListData(listId)
+        this.list.getListData(id)
         this.getData()
       } else {
         this.router.navigate(['/'])

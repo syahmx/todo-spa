@@ -1,32 +1,92 @@
 <div class="wrapper vh-100">
     <div class="d-flex flex-column h-100">
+        <!-- LOGO -->
         <div class="row justify-content-center">
             <div class="text-center logo p-2 mb-2">
                 ToDo.
             </div>
         </div>
+
         <div class="flex-fill">
             <hr class="my-0 mx-2 py-0">
-            <div class="d-flex justify-content-between px-3 py-2 header-item" routerLink='home'>
+            <!-- HOME SECTION -->
+            <div class="d-flex justify-content-between px-3 py-2 header-item" routerLink="home"
+                routerLinkActive="list-item-active">
                 <div class="header">Home</div>
             </div>
             <hr class="my-0 mx-2 py-0">
+            <!-- LIST SECTION -->
             <div class="d-flex justify-content-between px-3 py-2">
                 <div class="header">Lists</div>
-                <div class="align-self-center">
-                    <svg id="edit-pen" width="24" height="24" viewBox="0 0 24 24">
-                        <path
-                            d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
-                    </svg>
+                <div class="align-self-center" (click)="[onEdit = !onEdit, addingList = false]" *ngIf="!onEdit">
+                    <ng-container *ngTemplateOutlet="editPen"></ng-container>
+                </div>
+                <div class="align-self-center" (click)="onEdit = true" *ngIf="onEdit">
+                    <button class="btn btn-outline-primary customButton"
+                        (click)="[onEdit = false, resetEdit()]">Done</button>
                 </div>
             </div>
             <div class="align-self-stretch">
-                <div *ngFor="let list of lists" class="py-2 w-100 d-flex list-item"
-                    [routerLink]="['list', list.listName]" (click)="changeList(list)"
-                    routerLinkActive="list-item-active">
-                    <img src="../../../assets/icons/folder-outline.svg" class="folder ml-4 mr-2">
-                    <a class="align-self-center flex-grow-1 text-break mr-2"> {{ list.listName }} </a>
-                    <div class="mr-3 list-item-count px-1 rounded align-self-center"> {{ list.itemCount }} </div>
+                <!-- LIST ITERATION -->
+                <div *ngFor="let list of lists">
+                    <!-- NORMAL LSIT -->
+                    <div class="py-2 w-100 d-flex list-item" [routerLink]="'list/' + list.id" (click)="changeList(list)"
+                        routerLinkActive="list-item-active" *ngIf="!onEdit">
+                        <img src="../../../assets/icons/folder-outline.svg" class="folder ml-4 mr-2">
+                        <!-- LIST NAME -->
+                        <a class="align-self-center flex-grow-1 text-break mr-2">
+                            {{ list.listName }}
+                        </a>
+                        <!-- LIST COUNT -->
+                        <div class="mr-3 list-item-count px-1 rounded align-self-center">
+                            {{ list.itemCount }}
+                        </div>
+                    </div>
+                    <!-- EDITING LIST -->
+                    <div class="py-2 w-100 d-flex list-item" *ngIf="onEdit">
+                        <img *ngIf="!list.onEdit" src="../../../assets/icons/folder-outline.svg"
+                            class="folder ml-4 mr-2">
+                        <!-- LIST NAME -->
+                        <a class="align-self-center flex-grow-1 text-break mr-2" *ngIf="!list.onEdit">
+                            {{ list.listName }}
+                        </a>
+                        <div *ngIf="list.onEdit" class="p-3 input-group">
+                            <input type="text" class="form-control" maxlength="20">
+                            <div class="input-group-append">
+                                <div class="input-group-text custom-check" (click)="update(list)">
+                                    <i class="fa fa-check"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- LIST COUNT -->
+                        <div class="mr-3 list-item-count px-1 rounded align-self-center" *ngIf="!onEdit">
+                            {{ list.itemCount }}
+                        </div>
+                        <!-- LIST ON EDIT -->
+                        <div *ngIf="onEdit && !list.onEdit" class="mr-3 px-1 rounded align-self-center edit-container">
+                            <div (click)="list.onEdit = true">
+                                <ng-container *ngTemplateOutlet="editPen"></ng-container>
+                            </div>
+                            <div (click)="delete(list)">
+                                <ng-container *ngTemplateOutlet="deleteIcon"></ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- LIST EDIT OPTION -->
+                <div *ngIf="onEdit">
+                    <div *ngIf="addingList" class="p-3 input-group">
+                        <input type="text" class="form-control" [(ngModel)]="newListName" maxlength="20">
+                        <div class="input-group-append">
+                            <div class="input-group-text custom-check" (click)="addList(newListName)">
+                                <i class="fa fa-check"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center item-add p-2" (click)="addingList = true" *ngIf="!addingList">
+                        <i class=" fa fa-plus-circle mr-1"></i>
+                        New List
+                    </div>
                 </div>
             </div>
         </div>
@@ -36,3 +96,21 @@
         </div>
     </div>
 </div>
+
+<ng-template #editPen>
+    <div ngbPopover="Edit" triggers="mouseenter:mouseleave" placement="right">
+        <svg id="edit-icon" width="24" height="24" viewBox="0 0 24 24">
+            <path
+                d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
+        </svg>
+    </div>
+</ng-template>
+
+<ng-template #deleteIcon>
+    <div ngbPopover="Delete" triggers="mouseenter:mouseleave" placement="right">
+        <svg id="edit-icon" width="24" height="24" viewBox="0 0 24 24" class="item-edit">
+            <path
+                d="M9,3V4H4V6H5V19C5,20.1 5.9,21 7,21H17C18.1,21 19,20.1 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" />
+        </svg>
+    </div>
+</ng-template>
