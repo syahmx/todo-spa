@@ -1,9 +1,8 @@
 import { Router } from '@angular/router';
-import { UserForRegister } from './../model/user-for-register';
-import { UserForLogin } from './../model/user-for-login';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from "@auth0/angular-jwt";
+import { UserForLogin, UserForRegister } from '../model/user';
 
 @Injectable({
   providedIn: 'root'

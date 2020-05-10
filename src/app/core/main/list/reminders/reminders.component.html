@@ -2,7 +2,7 @@
     <div class="header">Reminders</div>
     <div class="scrollable">
 
-        <div *ngFor="let item of items | sortReminder; let i = index">
+        <div *ngFor="let item of items | sortReminder">
             <hr class="mr-2">
 
             <div class="d-flex item-box">
@@ -17,14 +17,16 @@
                     </svg>
                 </div>
                 <div class="mr-2 flex-grow-1">
-                    <div class="item-time"> Remind at {{ item.remindAt | date :'d MMM y, h:mm a' }} </div>
                     <div class="font-weight-bold" [ngClass]="{'text-crossed': item.isCompleted}">
                         {{ item.title }}
                     </div>
                     <div class="text-break" [ngClass]="{'text-crossed': item.isCompleted}">
                         {{ item.description }}
                     </div>
-                    <div class="item-time"> Created on {{ item.created | date :'d MMM y, h:mm a' }} </div>
+                    <div class="d-flex justify-content-between">
+                        <div class="item-time" [innerHTML]="item.remindAt | checkExpiry"></div>
+                        <div class="item-time"> Created on {{ item.created | date :'d MMM y, h:mm a' }} </div>
+                    </div>
                 </div>
                 <div class="align-self-center mr-3 item-delete">
                     <div class="d-flex flex-column">
@@ -45,7 +47,7 @@
                 </div>
             </div>
         </div>
-
         <hr class="mr-2">
+        <div *ngIf="items.length == 0" class="text-center no-item-text mb-3">No reminder</div>
     </div>
 </div>

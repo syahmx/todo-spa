@@ -1,19 +1,19 @@
 <div class="modal-header">
-    <h5 class="modal-title">Edit {{ category }}</h5>
+    <h5 class="modal-title">Add New {{ category }}</h5>
     <button type="button" class="close text-dark" (click)="activeModal.close(false)">
         <i class="fa fa-times"></i>
     </button>
 </div>
 
 <div class="modal-body p-3">
-    <form [formGroup]="editForm">
+    <form [formGroup]="addForm">
         <div class="input-group mb-2">
             <div class="input-group-prepend">
                 <span class="input-group-text">Title</span>
             </div>
             <input formControlName="title" type="text" class="form-control"
-                [ngClass]="{'is-invalid': editForm.get('title').errors}">
-            <div class="invalid-feedback" *ngIf="editForm.get('title').errors">
+                [ngClass]="{'is-invalid': addForm.get('title').errors && addForm.get('title').touched}">
+            <div class="invalid-feedback" *ngIf="addForm.get('title').errors">
                 Title is required
             </div>
         </div>
@@ -25,16 +25,16 @@
             <textarea formControlName="description" class="form-control" rows="3"></textarea>
         </div>
 
-        <div class="d-flex justify-content-between" [ngClass]="{'mb-2': editForm.value.isReminder}">
+        <div class="d-flex justify-content-between" [ngClass]="{'mb-2': addForm.value.isReminder}">
             <div>Remind me on a day</div>
             <div class="align-self-center">
                 <label class="switch m-0">
-                    <input type="checkbox" formControlName="isReminder" [checked]="(itemData.remindAt)">
+                    <input type="checkbox" formControlName="isReminder" [checked]="addForm.value.isReminder">
                     <span class="slider round"></span>
                 </label>
             </div>
         </div>
-        <div class="input-group" [ngClass]="{'d-none': !editForm.value.isReminder}">
+        <div class="input-group" [ngClass]="{'d-none': !addForm.value.isReminder}">
             <div class="input-group-prepend">
                 <span class="input-group-text">
                     Reminder
@@ -52,7 +52,7 @@
 </div>
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="closeModal()">Save</button>
+    <button type="button" class="btn btn-outline-dark" (click)="addItem(addForm)">Save</button>
 </div>
 
 <ng-template #dateTimeContent>

@@ -1,4 +1,15 @@
+@import '../../../../variables';
+
 .wrapper {
     height: 100vh;
     overflow-x: hidden;
+}
+
+.item-add {
+    color: $primary;
+    cursor: pointer;
+
+    &:hover {
+        color: $gray-600;
+    }
 }

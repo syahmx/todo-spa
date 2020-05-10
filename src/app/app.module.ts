@@ -24,6 +24,8 @@ import { IsNotTruePipe } from './pipes/is-not-true.pipe';
 import { SortReminderPipe } from './pipes/sort-reminder.pipe';
 import { SortTaskPipe } from './pipes/sort-task.pipe';
 import { EditModalComponent } from './core/main/list/edit-modal/edit-modal.component';
+import { CheckExpiryPipe } from './pipes/check-expiry.pipe';
+import { AddModalComponent } from './core/main/list/add-modal/add-modal.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token')
@@ -46,7 +48,9 @@ export function tokenGetter() {
     IsNotTruePipe,
     SortReminderPipe,
     SortTaskPipe,
-    EditModalComponent
+    EditModalComponent,
+    CheckExpiryPipe,
+    AddModalComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +72,8 @@ export function tokenGetter() {
   providers: [],
   bootstrap: [AppComponent],
   entryComponents: [
-    EditModalComponent
+    EditModalComponent,
+    AddModalComponent
   ]
 })
 export class AppModule { }

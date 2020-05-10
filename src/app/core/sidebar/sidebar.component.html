@@ -23,7 +23,7 @@
             <div class="align-self-stretch">
                 <div *ngFor="let list of lists" class="py-2 w-100 d-flex list-item"
                     [routerLink]="['list', list.listName]" (click)="changeList(list)"
-                    [ngClass]="{'list-item-active': activeList == list.listName}">
+                    routerLinkActive="list-item-active">
                     <img src="../../../assets/icons/folder-outline.svg" class="folder ml-4 mr-2">
                     <a class="align-self-center flex-grow-1 text-break mr-2"> {{ list.listName }} </a>
                     <div class="mr-3 list-item-count px-1 rounded align-self-center"> {{ list.itemCount }} </div>

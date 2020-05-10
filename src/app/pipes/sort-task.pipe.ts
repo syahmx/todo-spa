@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import * as moment from 'moment';
 
 @Pipe({
   name: 'sortTask',
@@ -9,10 +10,8 @@ export class SortTaskPipe implements PipeTransform {
   transform(value: any): any {
     if (value) {
       let prop = 'created'
-      let completed = value.filter(x => x.isCompleted == true).sort((a, b) =>
-        Math.abs(new Date(b[prop]).getTime() - new Date(a[prop]).getTime()))
-      let notCompleted = value.filter(x => x.isCompleted == false).sort((a, b) =>
-        Math.abs(new Date(b[prop]).getTime() - new Date(a[prop]).getTime()))
+      let completed = value.filter(x => x.isCompleted == true).sort((a, b) => this.compareDate(b[prop], a[prop]))
+      let notCompleted = value.filter(x => x.isCompleted == false).sort((a, b) => this.compareDate(b[prop], a[prop]))
 
       let output = []
       for (const each of notCompleted) {
@@ -25,6 +24,10 @@ export class SortTaskPipe implements PipeTransform {
       return output
     }
     return null
+  }
+
+  compareDate(a: any, b: any) {
+    return moment(a).diff(moment(b))
   }
 }
 
