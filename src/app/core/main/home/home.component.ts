@@ -1,5 +1,6 @@
-import { AlertifyService } from './../../services/alertify.service';
+import { UserService } from './../../services/user.service';
 import { Component, OnInit } from '@angular/core';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -7,14 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  name;
 
-  constructor(private alert: AlertifyService) { }
+  constructor(private user: UserService) { }
 
   ngOnInit() {
-  }
-
-  alertMe() {
-    this.alert.success('Test')
+    this.user.userData
+      .pipe(filter(x => x != null))
+      .subscribe(res => {
+        this.name = res.name;
+      })
   }
 
 }

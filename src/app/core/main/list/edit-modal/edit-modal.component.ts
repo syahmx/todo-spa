@@ -76,9 +76,21 @@ export class EditModalComponent implements OnInit {
       return `${('0' + val).slice(-2)}`
     }
 
-    if ((this.category == 'Task' && this.itemData.isReminder) || (this.category == 'Reminder' && !this.itemData.isReminder)) {
+    function dateChanged() {
+      let d = new Date(this.dateTime)
+      return this.itemData.remindAt == `${d.getFullYear()}-${addZero(d.getMonth() + 1)}-${addZero(d.getDate())}T${addZero(d.getHours() % 12)}:${addZero(d.getMinutes())}:00`
+    }
+
+    function replaceRemindAt() {
       let d = new Date(this.dateTime)
       this.itemData.remindAt = `${d.getFullYear()}-${addZero(d.getMonth() + 1)}-${addZero(d.getDate())}T${addZero(d.getHours() % 12)}:${addZero(d.getMinutes())}:00`
+    }
+
+    if ((this.category == 'Task' && this.itemData.isReminder) || (this.category == 'Reminder' && !this.itemData.isReminder)) {
+      replaceRemindAt()
+      isChanged = true;
+    } else if (dateChanged) {
+      replaceRemindAt()
       isChanged = true;
     }
 
