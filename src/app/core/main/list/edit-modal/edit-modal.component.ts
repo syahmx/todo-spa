@@ -72,32 +72,20 @@ export class EditModalComponent implements OnInit {
       if (isTrue) isChanged = true
     }
 
-    function addZero(val) {
-      return `${('0' + val).slice(-2)}`
-    }
-
-    function dateChanged() {
-      let d = new Date(this.dateTime)
-      return this.itemData.remindAt == `${d.getFullYear()}-${addZero(d.getMonth() + 1)}-${addZero(d.getDate())}T${addZero(d.getHours() % 12)}:${addZero(d.getMinutes())}:00`
-    }
-
-    function replaceRemindAt() {
-      let d = new Date(this.dateTime)
-      this.itemData.remindAt = `${d.getFullYear()}-${addZero(d.getMonth() + 1)}-${addZero(d.getDate())}T${addZero(d.getHours() % 12)}:${addZero(d.getMinutes())}:00`
-    }
-
-    if ((this.category == 'Task' && this.itemData.isReminder) || (this.category == 'Reminder' && !this.itemData.isReminder)) {
-      replaceRemindAt()
+    if (this.category == 'Reminder' && !this.itemData.isReminder) {
+      this.itemData.remindAt = null
       isChanged = true;
-    } else if (dateChanged) {
-      replaceRemindAt()
+    } else if (this.category == 'Task' && this.itemData.isReminder) {
+      this.itemData.remindAt = this.formatDate(new Date(this.dateTime))
+      isChanged = true;
+    } else if (this.itemData.remindAt != this.formatDate(new Date(this.dateTime))) {
+      this.itemData.remindAt = this.formatDate(new Date(this.dateTime))
       isChanged = true;
     }
 
     if (!this.itemData.isReminder) this.itemData.remindAt = null
 
     if (isChanged) {
-      console.log(isChanged)
       this.item.updateItem(this.listId, this.itemData.id, {
         id: this.itemData.id,
         title: this.itemData.title,
@@ -112,8 +100,16 @@ export class EditModalComponent implements OnInit {
         this.alert.error('Oops, fail to update. Check your internet connection.')
       })
     } else {
-      this.activeModal.close(true)
+      this.activeModal.close(false)
     }
+  }
+
+  formatDate(d) {
+    function addZero(val) {
+      return `${('0' + val).slice(-2)}`
+    }
+
+    return `${d.getFullYear()}-${addZero(d.getMonth() + 1)}-${addZero(d.getDate())}T${addZero(d.getHours())}:${addZero(d.getMinutes())}:00`
   }
 
   compare(prop: string) {
@@ -123,4 +119,5 @@ export class EditModalComponent implements OnInit {
     }
     else return false
   }
+
 }

@@ -9,13 +9,11 @@ import { HttpClient } from '@angular/common/http';
 export class ListService {
   baseUrl = 'http://localhost:5000/api/'
   listData = new BehaviorSubject(null);
-  list;
 
-  constructor(private http: HttpClient, private user: UserService) { }
+  constructor(private http: HttpClient, private _user: UserService) { }
 
   getListData(listId) {
-    this.user.getUserData()
-    this.http.get(`${this.baseUrl}users/${this.user.user.id}/lists/${listId}`).subscribe(
+    this.http.get(`${this.baseUrl}users/${this._user.getUserId()}/lists/${listId}`).subscribe(
       res => {
         this.listData.next(res);
       },
@@ -38,14 +36,14 @@ export class ListService {
       created: today
     }
 
-    return this.http.post(`${this.baseUrl}users/${this.user.user.id}/lists`, data)
+    return this.http.post(`${this.baseUrl}users/${this._user.getUserId()}/lists`, data)
   }
 
   update(listId, data) {
-    return this.http.put(`${this.baseUrl}users/${this.user.user.id}/lists/${listId}`, data)
+    return this.http.put(`${this.baseUrl}users/${this._user.getUserId()}/lists/${listId}`, data)
   }
 
   delete(listId) {
-    return this.http.delete(`${this.baseUrl}users/${this.user.user.id}/lists/${listId}`)
+    return this.http.delete(`${this.baseUrl}users/${this._user.getUserId()}/lists/${listId}`)
   }
 }

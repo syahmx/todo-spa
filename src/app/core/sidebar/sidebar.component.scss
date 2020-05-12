@@ -30,18 +30,39 @@
     color: $gray-600;
 }
 
-.list-item:hover {
-    cursor: pointer;
-    background: $gray-100;
-}
-
 .list-item-active {
     background: $gray-300;
 }
 
-.list-item-count {
-    color: $gray-200;
-    background: $gray-400;
+.list-item {
+    .list-item-count {
+        color: $gray-200;
+        background: $gray-400;
+    }
+
+    .list-item-clone {
+        color: $gray-500;
+        display: none;
+
+        &:hover {
+            color: $gray-800;
+        }
+    }
+
+    &:hover {
+        cursor: pointer;
+        background: $gray-100;
+
+        .list-item-count {
+            display: none;
+            color: $gray-200;
+            background: $gray-400;
+        }
+
+        .list-item-clone {
+            display: inline;
+        }
+    }
 }
 
 .logout {

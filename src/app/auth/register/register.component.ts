@@ -45,7 +45,7 @@ export class RegisterComponent implements OnInit {
   register() {
     if (this.registerForm.valid) {
       let user: UserForRegister = {
-        name: this.registerForm.value.name.toUpperCase(),
+        name: this.registerForm.value.name[0].toUpperCase() + this.registerForm.value.name.slice(1),
         username: this.registerForm.value.username,
         password: this.registerForm.value.password
       }
@@ -61,7 +61,7 @@ export class RegisterComponent implements OnInit {
               clearInterval(x)
               this.router.navigate(['auth/login'])
             }
-          })
+          }, 1000)
         },
         err => {
           this.usernameIsExists = true

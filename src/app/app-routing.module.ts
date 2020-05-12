@@ -1,3 +1,4 @@
+import { NoListComponent } from './core/main/no-list/no-list.component';
 import { HomeComponent } from './core/main/home/home.component';
 import { CoreComponent } from './core/core.component';
 import { RegisterComponent } from './auth/register/register.component';
@@ -18,11 +19,11 @@ const routes: Routes = [
   },
   {
     path: 'app', component: CoreComponent, children: [
-      { path: 'home', component: HomeComponent },
+      { path: 'no-list', component: NoListComponent },
       { path: 'list/:listId', component: ListComponent }
     ]
   },
-  { path: '', redirectTo: 'app/home', pathMatch: 'full' }
+  { path: '', redirectTo: 'app/list/1', pathMatch: 'full' }
 ];
 
 @NgModule({

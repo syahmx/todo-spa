@@ -18,52 +18,67 @@ export class SidebarComponent implements OnInit {
     listName: string;
     id: number;
     itemCount: number;
-    onEdit: boolean;
-  }[];
+    onEdit?: boolean;
+    newListName?: string;
+  }[] = [];
+  activeListId: number;
   onEdit: boolean = false;
   addingList: boolean = false;
   newListName: string;
 
-  constructor(private user: UserService, private auth: AuthService, private list: ListService,
+  constructor(private _user: UserService, private auth: AuthService, private _list: ListService,
     private alert: AlertifyService, private modalService: NgbModal, private router: Router) { }
 
   ngOnInit() {
-    this.user.userData.pipe(filter(x => x != null))
+    setTimeout(() => {
+      this.activeListId = this.router.url.split('/')[3] ? parseInt(this.router.url.split('/')[3]) : null
+    }, 500)
+
+    this._user.userData.pipe(filter(x => x != null))
       .subscribe(res => {
         this.lists = res.lists
       })
   }
 
   changeList(list) {
-    if (!this.onEdit) {
-      this.list.getListData(list.id)
+    if (!this.onEdit && list.id != this.activeListId) {
+      this.activeListId = list.id
+      this._list.getListData(list.id)
     }
   }
 
   addList(listName) {
-    if (listName != null || listName != '' && listName.length < 20) {
-      this.list.add(listName).subscribe(
-        res => {
-          this.newListName = ''
-          this.user.getUserData()
-          this.addingList = false
-        }, err => {
-          this.alert.error('Adding list failed, try again')
-        }
-      )
+    if (listName) {
+      if (listName != null || listName != '' && listName.length < 20) {
+        this._list.add(listName).subscribe(
+          res => {
+            this.newListName = ''
+            this._user.getUserData()
+            this.addingList = false
+            this.alert.success('New list added')
+          }, err => {
+            this.alert.error('Adding list failed, try again')
+          }
+        )
+      }
     }
   }
 
   update(list) {
-    this.list.update(list.id, { listName: list.listName }).subscribe(
-      res => {
-        this.alert.success('Update successful')
-        list.onEdit = false;
-      },
-      err => {
-        this.alert.error('Update failed, try again')
-      }
-    )
+    if (list.listName != list.newListName) {
+      this._list.update(list.id, { listName: list.newListName }).subscribe(
+        res => {
+          this._user.getUserData()
+          this.alert.success('Update successful')
+          list.onEdit = false;
+        },
+        err => {
+          this.alert.error('Update failed, try again')
+        }
+      )
+    } else {
+      list.onEdit = false;
+    }
   }
 
   async delete(list) {
@@ -73,15 +88,16 @@ export class SidebarComponent implements OnInit {
 
     modalRef.result.then(res => {
       if (res) {
-        this.list.delete(list.id).subscribe(
+        this._list.delete(list.id).subscribe(
           res => {
             this.alert.success('List deleted')
-            this.user.getUserData()
+            this._user.getUserData()
             let id = this.router.url.split('/')[3]
-
-            if (id == list.id) {
+            if (this.lists.length == 1) {
+              this.router.navigate(['app', 'no-list'])
+            } else if (id == list.id) {
               this.router.navigate(['app', 'list', this.lists[0].id])
-              this.list.getListData(this.lists[0].id)
+              this._list.getListData(this.lists[0].id)
             }
           },
           err => {
@@ -95,6 +111,7 @@ export class SidebarComponent implements OnInit {
   }
 
   resetEdit() {
+    this.newListName = ''
     for (let i = 0; i < this.lists.length; i++) {
       this.lists[i].onEdit = false;
     }

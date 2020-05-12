@@ -14,10 +14,14 @@ export class CheckExpiryPipe implements PipeTransform {
       return `Today, ${moment(value).format('h:mm A')}`
     } else {
       if (moment().diff(moment(value), 'seconds') > 0) {
-        return `<span class="text-danger">${moment(value).format('D MMM y, h:mm A')}</span>`
+        return `<span class="text-danger">${this.format(value)}</span>`
       }
-      return `${moment(value).format('D MMM y, h:mm A')}`
+      return `${this.format(value)}`
     }
+  }
+
+  format(value) {
+    return `${moment(value).format('D MMM y')}, ${moment(value).format('h:mm A')}`
   }
 
   isToday(date) {

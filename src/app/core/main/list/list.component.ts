@@ -14,30 +14,27 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-  listData: List;
+  list: List;
 
-  constructor(private list: ListService, private user: UserService, private router: Router,
+  constructor(private _list: ListService, private _user: UserService, private router: Router,
     private modalService: NgbModal, private alert: AlertifyService) { }
 
   ngOnInit() {
     setTimeout(() => {
       let id = this.router.url.split('/')[3]
-      let listData = this.user.user.lists.filter(x => x.id == id)[0]
-      if (listData) {
-        this.list.getListData(id)
-        this.getData()
-      } else {
-        this.router.navigate(['/'])
-      }
+      let check = this._user.checkList(id)
+
+      this.router.navigate([check.url])
+      if (check.id) this._list.getListData(check.id)
     }, 500)
   }
 
   getData() {
-    this.list.listData
+    this._list.listData
       .pipe(filter(x => x != null))
       .subscribe((
         (next: List) => {
-          this.listData = next;
+          this.list = next;
         }
       ))
   }
@@ -45,12 +42,12 @@ export class ListComponent implements OnInit {
   add(category) {
     const modalRef = this.modalService.open(AddModalComponent)
     modalRef.componentInstance.category = category;
-    modalRef.componentInstance.listId = this.listData.id;
-    modalRef.componentInstance.listName = this.listData.listname;
+    modalRef.componentInstance.listId = this.list.id;
+    modalRef.componentInstance.listName = this.list.listname;
 
     modalRef.result.then(res => {
       if (res) {
-        this.list.getListData(this.listData.id)
+        this._list.getListData(this.list.id)
         this.alert.success(`${category} added`)
       }
     }).catch(err => { })

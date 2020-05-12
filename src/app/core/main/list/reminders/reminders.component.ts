@@ -56,6 +56,7 @@ export class RemindersComponent implements OnInit {
     modalRef.componentInstance.listId = this.listData.id;
 
     modalRef.result.then(res => {
+      console.log(res)
       if (res) {
         this.list.getListData(this.listData.id)
         this.alert.success('Update successful')

@@ -27,6 +27,7 @@ import { EditModalComponent } from './core/main/list/edit-modal/edit-modal.compo
 import { CheckExpiryPipe } from './pipes/check-expiry.pipe';
 import { AddModalComponent } from './core/main/list/add-modal/add-modal.component';
 import { ConfirmModalComponent } from './shared/confirm-modal/confirm-modal.component';
+import { NoListComponent } from './core/main/no-list/no-list.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token')
@@ -52,7 +53,8 @@ export function tokenGetter() {
     EditModalComponent,
     CheckExpiryPipe,
     AddModalComponent,
-    ConfirmModalComponent
+    ConfirmModalComponent,
+    NoListComponent
   ],
   imports: [
     BrowserModule,
